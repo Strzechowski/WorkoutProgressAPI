@@ -23,9 +23,18 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = '__all__'
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    profile = ProfileSerializer()
-    trainings = TrainingSerializer(many=True)
+class UserSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(read_only=True)
+    trainings = TrainingSerializer(many=True, read_only=True)
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'profile', 'trainings']
+        fields = ['id', 'username', 'email', 'profile', 'trainings', 'password']
+
+    def create(self, validated_data):
+        user = super(UserSerializer, self).create(validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
