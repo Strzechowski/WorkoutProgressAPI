@@ -29,7 +29,7 @@ class Profile(models.Model):
         return self.user
 
 class Training(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainings')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainings', to_field="username")
     name = models.CharField(max_length = 30)
     date = models.DateField()
 

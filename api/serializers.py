@@ -7,13 +7,13 @@ class SetSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ExerciseSerializer(serializers.ModelSerializer):
-    sets = SetSerializer(many=True)
+    sets = SetSerializer(many=True, read_only=True)
     class Meta:
         model = Exercise
         fields = '__all__'
 
 class TrainingSerializer(serializers.ModelSerializer):
-    exercises = ExerciseSerializer(many=True)
+    exercises = ExerciseSerializer(many=True, read_only=True)
     class Meta:
         model = Training
         fields = '__all__'
